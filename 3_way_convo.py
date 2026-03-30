@@ -30,6 +30,7 @@ conversation = [
 ]
 
 
+#Adding history to the convo so that LLMs give related answers based on context and are not purely predicting based on tokens
 def build_prompt(agent):
     history = "\n".join(f"{turn['speaker']}: {turn['text']}" for turn in conversation)
     return (
@@ -59,6 +60,7 @@ def call_agent(agent):
     return text
 
 
+#Here, we run the convo for 3 rounds
 for round_index in range(3):
     display(Markdown(f"## Round {round_index + 1}"))
     for agent in agents:
