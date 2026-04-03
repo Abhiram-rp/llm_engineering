@@ -29,4 +29,5 @@ def chat(message, history):
         response += chunk.choices[0].delta.content or ''
         yield response
 
+gr.ChatInterface(fn=chat, type="messages").launch()
   
