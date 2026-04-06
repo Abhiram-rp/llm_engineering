@@ -56,3 +56,4 @@ def handle_tool_call(message):
         }
     return response
 
+gr.ChatInterface(fn=chat, type="messages").launch()
