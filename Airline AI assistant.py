@@ -11,10 +11,19 @@ Give short, courteous answers, no more than 1 sentence.
 Always be accurate. If you don't know the answer, say so.
 """
 
-def chat(message, history):
-    history = [{"role":h["role"], "content":h["content"]} for h in history]
-    messages = [{"role": "system", "content": system_message}] + history + [{"role": "user", "content": message}]
-    response = openai.chat.completions.create(model=MODEL, messages=messages)
-    return response.choices[0].message.content
+price_function = {
+    "name": "get_ticket_price",
+    "description": "Get the price of a return ticket to the destination city.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "destination_city": {
+                "type": "string",
+                "description": "The city that the customer wants to travel to",
+            },
+        },
+        "required": ["destination_city"],
+        "additionalProperties": False
+    }
+}
 
-gr.ChatInterface(fn=chat, type="messages").launch()
