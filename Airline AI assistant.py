@@ -28,6 +28,26 @@ get_price_function = {
     }
 }
 
+set_price_function = {
+    "name": "set_ticket_price",
+    "description": "Add or update the ticket price for a destination city.",
+    "parameters": {
+        "type": "object"
+        "properties": {
+            "destination_city": {
+                "type": "string",
+                "description": "City to update or insert",
+            },
+            "price": {
+                "type": "number",
+                "description": "New ticket price",
+            }
+        },
+        "required": ["destination_city", "price"],
+        "additionalProperties": False
+    }
+}
+
 tools = [{"type": "function", "function": get_price_function}]
 
 DB = "prices.db"
