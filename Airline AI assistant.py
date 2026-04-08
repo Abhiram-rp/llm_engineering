@@ -52,6 +52,17 @@ def get_ticket_price(city):
         result = cursor.fetchone()
         return f"Ticket price to {city} is ${result[0]}" if result else "No price data available for this city"
 
+def set_ticket_price(city,price):
+    print(f"DATABASE TOOL CALLED: Setting price for {city} to {price}", flush=True)
+    with sqlite3.connect(DB) as conn:
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO prices (city,price) VALUES (?,?) '
+                       'ON CONFLICT(city) DO UPDATE SET price = excluded.price',
+                       (city.lower(), price)
+                      )
+        conn.commit()
+        return f"Ticket price for {city} has been set to ${price}"
+
 def chat(message, history):
     history = [{"role":h["role"], "content":h["content"]} for h in history]
     messages = [{"role": "system", "content": system_message}] + history + [{"role": "user", "content": message}]
