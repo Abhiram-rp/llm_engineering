@@ -53,7 +53,7 @@ set_price_function = {
 
 tools = [
     {"type": "function", "function": get_price_function},
-    {"type": "function", "function": set_ticket_price}
+    {"type": "function", "function": set_price_function}
 ]
 
 DB = "prices.db"
