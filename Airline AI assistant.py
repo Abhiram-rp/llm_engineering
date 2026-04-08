@@ -1,6 +1,7 @@
 import os
 import json
 import gradio as gr
+import sqlite3
 
 MODEL = "llama3.2"
 openai = OpenAI(base_url='http://localhost:11434/v1', api_key='ollama')
@@ -28,6 +29,15 @@ price_function = {
 }
 
 tools = [{"type": "function", "function": price_function}]
+
+DB = "prices.db"
+
+with sqlite3.connect(DB) as conn:
+    cursor = conn.cursor()
+    cursor.execute('CREATE TABLE IF NOT EXISTS prices (city TEXT PRIMARY KEY, price REAL)')
+    conn.commit()
+
+
 
 def chat(message, history):
     history = [{"role":h["role"], "content":h["content"]} for h in history]
