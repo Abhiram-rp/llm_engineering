@@ -12,7 +12,7 @@ Give short, courteous answers, no more than 1 sentence.
 Always be accurate. If you don't know the answer, say so.
 """
 
-price_function = {
+get_price_function = {
     "name": "get_ticket_price",
     "description": "Get the price of a return ticket to the destination city.",
     "parameters": {
@@ -28,7 +28,7 @@ price_function = {
     }
 }
 
-tools = [{"type": "function", "function": price_function}]
+tools = [{"type": "function", "function": get_price_function}]
 
 DB = "prices.db"
 
