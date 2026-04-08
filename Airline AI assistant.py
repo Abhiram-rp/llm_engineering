@@ -34,26 +34,27 @@ def chat(message, history):
     messages = [{"role": "system", "content": system_message}] + history + [{"role": "user", "content": message}]
     response = openai.chat.completions.create(model=MODEL, messages=messages, tools=tools)
 
-    if response.choices[0].finish_reason=="tool_calls":
+    while response.choices[0].finish_reason=="tool_calls":
         message = response.choices[0].message
-        response = handle_tool_call(message)
+        responses = handle_tool_calls(message)
         messages.append(message)
-        messages.append(response)
-        response = openai.chat.completions.create(model=MODEL, messages=messages)
+        messages.extend(responses)
+        response = openai.chat.completions.create(model=MODEL, messages=messages, tools=tools)
     
     return response.choices[0].message.content
 
-def handle_tool_call(message):
-    tool_call = message.tool_calls[0]
-    if tool_call.function.name == "get_ticket_price":
-        arguments = json.loads(tool_call.function.arguments)
-        city = arguments.get('destination_city')
-        price_details = get_ticket_price(city)
-        response = {
-            "role": "tool",
-            "content": price_details,
-            "tool_call_id": tool_call.id
-        }
-    return response
+def handle_tool_calls(message):
+    responses = []
+    for tool_call in message.tool_calls:
+        if tool_call.function.name == "get_ticket_price":
+            arguments = json.loads(tool_call.function.arguments)
+            city = arguments.get('destination_city')
+            price_details = get_ticket_price(city)
+            responses.append({
+                "role": "tool",
+                "content": price_details,
+                "tool_call_id": tool_call.id
+            })
+    return responses
 
 gr.ChatInterface(fn=chat, type="messages").launch()
