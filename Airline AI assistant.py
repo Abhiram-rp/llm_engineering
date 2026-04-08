@@ -37,6 +37,13 @@ with sqlite3.connect(DB) as conn:
     cursor.execute('CREATE TABLE IF NOT EXISTS prices (city TEXT PRIMARY KEY, price REAL)')
     conn.commit()
 
+with sqlite3.connect(DB) as conn:
+    cursor = conn.cursor()
+    cursor.execute('INSERT OR IGNORE INTO prices VALUES (?, ?)', ('paris', 500))
+    cursor.execute('INSERT OR IGNORE INTO prices VALUES (?, ?)', ('london', 650))
+    cursor.execute('INSERT OR IGNORE INTO prices VALUES (?, ?)', ('new york', 900))
+    conn.commit()
+
 def get_ticket_price(city):
     print(f"DATABASE TOOL CALLED: Getting price for {city}", flush=True)
     with sqlite3.connect(DB) as conn:
