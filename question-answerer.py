@@ -10,6 +10,9 @@ openai = OpenAI(base_url='http://localhost:11434/v1', api_key='ollama')
 system_message = """
 You are a helpful assistant who answers questions about whatever the user asks.
 Always be accurate. If you don't know the answer, say so.
+
+If search_docs returns "No relevant documentation found", say "I don't know".
+Do NOT answer from memory. If search_docs returns relevant documentation, use that to answer the question.
 """
 
 search_docs_function = {
