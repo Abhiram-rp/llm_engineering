@@ -65,3 +65,13 @@ tools = [
     {"type": "function", "function": run_code_function},
     {"type": "function", "function": explain_code_function}
 ]
+
+def search_docs(query):
+    try:
+        url = f"https://api.duckduckgo.com/?q={query}&format=json"
+        response = requests.get(url).json()
+        if response.get("Abstract"):
+            return response["Abstract"]
+        return "No relevant documentation found"
+    except Exception as e:
+        return f"Error during search: {str(e)}" 
