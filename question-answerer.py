@@ -75,3 +75,18 @@ def search_docs(query):
         return "No relevant documentation found"
     except Exception as e:
         return f"Error during search: {str(e)}" 
+
+
+def explain_code(code, language="python"):
+    return f"""
+Explain the following {language} code:
+
+{code}
+
+Provide:
+1. Summary
+2. Step-by-step explanation
+3. Time complexity
+4. Space complexity
+5. Potential improvements
+"""
