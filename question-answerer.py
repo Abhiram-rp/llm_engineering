@@ -56,3 +56,9 @@ explain_code_function = {
         "required": ["code"]
     }
 }
+
+tools = [
+    {"type": "function", "function": search_docs_function},
+    {"type": "function", "function": run_code_function},
+    {"type": "function", "function": explain_code_function}
+]
