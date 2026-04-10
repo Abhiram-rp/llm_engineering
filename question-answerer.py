@@ -90,3 +90,18 @@ Provide:
 4. Space complexity
 5. Potential improvements
 """
+
+#Tool caller
+def call_tool(tool_name, parameters):
+    if tool_name == "search_docs":
+        return search_docs(parameters["query"])
+    
+    elif tool_name == "run_code":
+        # Implement code execution logic here
+        return "Code execution not implemented yet."
+    
+    elif tool_name == "explain_code":
+        return explain_code(parameters["code"])
+    
+    else:
+        return f"Unknown tool: {tool_name}"
