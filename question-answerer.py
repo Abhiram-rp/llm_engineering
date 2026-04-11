@@ -105,3 +105,38 @@ def call_tool(tool_name, parameters):
     
     else:
         return f"Unknown tool: {tool_name}"
+
+
+#Agent 
+def agent(user_input):
+    messages = [
+         {
+            "role": "system",
+            "content": system_message
+        },
+        {"role": "user", "content": user_input}
+    ]
+
+    while True:
+        response = openai.chat.completions.create(
+            model=MODEL,
+            messages=messages,
+            tools=tools,
+            tool_choice="auto"
+        )
+
+        message = response.choices[0].message
+
+        if message.tool_calls:
+            tool_call = message.tool_calls[0]
+            tool_name = tool_call.function.name
+            arguments = json.loads(tool_call.function.arguments)
+            tool_response = call_tool(tool_name, arguments)
+            messages.append(message)
+            messages.append({
+                "role": "tool",
+                "tool_call_id": tool_call.id,
+                "content": tool_response
+            })
+        else:
+            return message.content
